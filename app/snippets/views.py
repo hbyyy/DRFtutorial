@@ -1,6 +1,6 @@
 # Create your views here.
 from django.contrib.auth.models import User
-from rest_framework import generics, permissions, renderers
+from rest_framework import generics, permissions, renderers, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -25,12 +25,11 @@ class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 
-class UserView(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    this viewset automatically provide 'list' and 'detail' actions.
+    """
 
-
-class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
